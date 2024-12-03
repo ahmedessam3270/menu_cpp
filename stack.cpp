@@ -8,19 +8,22 @@ class Employee
 {
     char name[100];
     int salary;
+    int id;
 
 public:
     Employee() {}
-    Employee(const char *name, int salary)
+    Employee(const char *name, int salary, int id)
     {
         strcpy(this->name, name);
         this->salary = salary;
+        this->id = id;
     }
     void print()
     {
         cout << "{\n";
         cout << "\tname: " << this->name << "," << endl;
         cout << "\tsalary: " << this->salary << "," << endl;
+        cout << "\tid: " << this->id << endl;
         cout << "}";
     }
 
@@ -33,9 +36,13 @@ public:
     {
         return this->salary;
     }
+    int getId()
+    {
+        return this->id;
+    }
 };
 
-enum StackErrorCode
+enum StackStatus
 {
     StackIsFull = -1,
     StackIsEmpty = 1,
@@ -94,7 +101,7 @@ public:
     {
         if (top == size)
         {
-            throw StackErrorCode::StackIsFull;
+            throw StackStatus::StackIsFull;
         }
         this->items[top++] = value;
     }
@@ -103,7 +110,7 @@ public:
     {
         if (top == 0)
         {
-            throw StackErrorCode::StackIsEmpty;
+            throw StackStatus::StackIsEmpty;
         }
 
         return this->items[--top];
@@ -163,6 +170,7 @@ void main_push_click(Master *state)
     cin >> name;
     cout << endl;
     int salary = 0;
+    int id = 0;
     bool done_before = false;
     do
     {
@@ -174,7 +182,9 @@ void main_push_click(Master *state)
         done_before = false;
     } while (salary == 0);
     cout << endl;
-    Employee employee = Employee(name, salary);
+    id = prompt_int("Enter id: ");
+    cout << endl;
+    Employee employee = Employee(name, salary, id);
     delete name; //TODO check this
     try
     {
@@ -182,7 +192,7 @@ void main_push_click(Master *state)
         cout << "Pushed, press any key" << endl;
         getch();
     }
-    catch (StackErrorCode err)
+    catch (StackStatus err)
     {
         cout << "Stack is full, press any key" << endl;
         getch();
@@ -206,6 +216,7 @@ void main_display_click(Master *state)
         Employee current = state->stack->getAll()[i];
         cout << "Name \t:\t" << current.getName() << endl;
         cout << "Salary \t:\t" << current.getSalary() << endl;
+        cout << "Id \t:\t" << current.getId() << endl;
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     }
     cout << "Press any key" << endl;
@@ -225,7 +236,7 @@ void main_pop_click(Master *state)
         cout << "Popped, press any key" << endl;
         getch();
     }
-    catch (StackErrorCode err)
+    catch (StackStatus err)
     {
         cout << "Stack is empty, press any key" << endl;
         getch();
