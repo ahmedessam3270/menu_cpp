@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-#include "./library/menu2.cpp"
+#include "./library/menu.cpp"
 #include "./library/inputter.h"
 using namespace std;
 
@@ -18,14 +18,7 @@ public:
         this->salary = salary;
         this->id = id;
     }
-    void print()
-    {
-        cout << "{\n";
-        cout << "\tname: " << this->name << "," << endl;
-        cout << "\tsalary: " << this->salary << "," << endl;
-        cout << "\tid: " << this->id << endl;
-        cout << "}";
-    }
+    
 
     char *getName()
     {
@@ -126,7 +119,7 @@ public:
         cout << "[ \n";
         for (int i = 0; i < top; i++)
         {
-            this->items[i].print();
+            // this->items[i].print();
         }
         cout << endl;
         cout << "\n]";
@@ -148,11 +141,6 @@ public:
     }
 };
 
-void x1(Master *state)
-{
-    cout << "LLL" << state->menu->items[state->menu->current].title << endl;
-    getch();
-}
 
 void main_push_click(Master *state)
 {
@@ -217,7 +205,7 @@ void main_display_click(Master *state)
         cout << "Name \t:\t" << current.getName() << endl;
         cout << "Salary \t:\t" << current.getSalary() << endl;
         cout << "Id \t:\t" << current.getId() << endl;
-        cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+        cout << "=========================================" << endl;
     }
     cout << "Press any key" << endl;
     getch();
@@ -232,13 +220,14 @@ void main_pop_click(Master *state)
         Employee employee = state->stack->pop();
         cout << "Name \t:\t" << employee.getName() << endl;
         cout << "Salary \t:\t" << employee.getSalary() << endl;
-        cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-        cout << "Popped, press any key" << endl;
+        cout << "Id \t:\t" << employee.getId() << endl;
+        cout << "=========================================" << endl;
+        cout << "Popped,please press any key" << endl;
         getch();
     }
     catch (StackStatus err)
     {
-        cout << "Stack is empty, press any key" << endl;
+        cout << "Stack is Now empty,please press any key" << endl;
         getch();
     }
     state->menu->render();
@@ -260,7 +249,7 @@ int main()
     {
         if (done_before)
             cout << "\nSize cannot be 0" << endl;
-        size = prompt_int("Enter stack size: ");
+        size = prompt_int("Enter your stack size: ");
         done_before = true;
 
     } while (size == 0);
